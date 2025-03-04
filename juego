@@ -1,0 +1,126 @@
+import pygame
+import random
+
+# Inicializa Pygame
+pygame.init()
+
+# Definir colores
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+VERDE = (0, 255, 0)
+ROJO = (213, 50, 80)
+AZUL = (50, 153, 213)
+
+# Dimensiones de la pantalla
+ANCHO = 600
+ALTO = 400
+
+# Definir el tamaño de cada cuadro de la serpiente y manzana
+TAM_CUADRO = 20
+
+# Crear la pantalla
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption('Juego de la Serpiente')
+
+# Reloj para controlar la velocidad del juego
+reloj = pygame.time.Clock()
+
+# Fuente para el puntaje
+fuente = pygame.font.SysFont('arial', 25)
+
+# Función para mostrar el puntaje
+def mostrar_puntaje(puntaje):
+    valor = fuente.render("Puntaje: " + str(puntaje), True, BLANCO)
+    pantalla.blit(valor, [0, 0])
+
+# Función principal del juego
+def juego():
+    # Coordenadas de la serpiente
+    x = ANCHO // 2
+    y = ALTO // 2
+    x_cambio = 0
+    y_cambio = 0
+
+    # Cuerpo de la serpiente
+    serpiente = []
+    longitud_serpiente = 1
+
+    # Coordenadas de la manzana
+    manzana_x = random.randrange(0, ANCHO - TAM_CUADRO, TAM_CUADRO)
+    manzana_y = random.randrange(0, ALTO - TAM_CUADRO, TAM_CUADRO)
+
+    puntaje = 0
+
+    # Bucle principal del juego
+    while True:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_LEFT:
+                    x_cambio = -TAM_CUADRO
+                    y_cambio = 0
+                elif evento.key == pygame.K_RIGHT:
+                    x_cambio = TAM_CUADRO
+                    y_cambio = 0
+                elif evento.key == pygame.K_UP:
+                    y_cambio = -TAM_CUADRO
+                    x_cambio = 0
+                elif evento.key == pygame.K_DOWN:
+                    y_cambio = TAM_CUADRO
+                    x_cambio = 0
+
+        # Verifica si la serpiente choca contra los bordes
+        if x >= ANCHO or x < 0 or y >= ALTO or y < 0:
+            pygame.quit()
+            quit()
+
+        x += x_cambio
+        y += y_cambio
+
+        pantalla.fill(AZUL)
+
+        # Dibuja la manzana
+        pygame.draw.rect(pantalla, ROJO, [manzana_x, manzana_y, TAM_CUADRO, TAM_CUADRO])
+
+        # Mueve el cuerpo de la serpiente
+        cabeza_serpiente = []
+        cabeza_serpiente.append(x)
+        cabeza_serpiente.append(y)
+        serpiente.append(cabeza_serpiente)
+
+        if len(serpiente) > longitud_serpiente:
+            del serpiente[0]
+
+        # Verifica si la serpiente se muerde
+        for segmento in serpiente[:-1]:
+            if segmento == cabeza_serpiente:
+                pygame.quit()
+                quit()
+
+        # Dibuja la serpiente
+        for segmento in serpiente:
+            pygame.draw.rect(pantalla, VERDE, [segmento[0], segmento[1], TAM_CUADRO, TAM_CUADRO])
+
+        # Muestra el puntaje
+        mostrar_puntaje(puntaje)
+
+        pygame.display.update()
+
+        # Verifica si la serpiente ha comido la manzana
+        if x == manzana_x and y == manzana_y:
+            manzana_x = random.randrange(0, ANCHO - TAM_CUADRO, TAM_CUADRO)
+            manzana_y = random.randrange(0, ALTO - TAM_CUADRO, TAM_CUADRO)
+            longitud_serpiente += 1
+            puntaje += 1
+
+        # Controla la velocidad del juego
+        reloj.tick(8)
+
+# Llama a la función principal del juego
+juego()
+
+# Cierra Pygame
+pygame.quit()

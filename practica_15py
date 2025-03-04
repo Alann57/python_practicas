@@ -1,0 +1,28 @@
+class Pokemon:
+        '''definir un pokemon'''
+        nombre=None
+        habilidad=None
+        tipo=None
+        #constructor
+        def __init__(self, n, h , t ) :
+            self.nombre= n
+            self.habilidad= h
+            self.tipo= t
+        #metodos
+
+        def atacar(self):
+            print(f"{self.nombre} atacó")
+        def defenderse(self):
+            print(f"{self.nombre} se defendió")
+
+if __name__ == "__main__":  
+
+    picachu1= Pokemon("Picachu","Trueno","Electrico")
+    picachu1.atacar()
+    picachu1.defenderse()
+if __name__ == "__main__":  
+
+    harizard1= Pokemon("Charizard","Fuego/Volador" , "Mar Llamas")
+    harizard1.atacar()
+    harizard1.defenderse()
+

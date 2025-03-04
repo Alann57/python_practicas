@@ -1,0 +1,80 @@
+import pygame
+import time
+
+# Inicializar pygame
+pygame.init()
+
+# Configuración de la ventana
+ANCHO, ALTO = 800, 600
+VENTANA = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Mover Auto con Meta")
+
+# Colores
+NEGRO = (0, 0, 0)
+BLANCO = (255, 255, 255)
+ROJO = (255, 0, 0)
+
+# Cargar imagen del auto
+auto_img = pygame.image.load("car.png").convert_alpha()  # Imagen sin fondo
+auto_img = pygame.transform.scale(auto_img, (50, 100))  # Redimensionar el auto
+
+# Posición inicial del auto
+x, y = ANCHO // 2, ALTO - 120
+velocidad = 5
+
+# Definir la meta
+meta_x, meta_y = ANCHO // 2 - 50, 50
+meta_ancho, meta_alto = 100, 20
+
+# Iniciar tiempo y puntaje
+tiempo_inicio = time.time()
+puntaje = 0
+
+# Bucle principal del juego
+jugando = True
+clock = pygame.time.Clock()
+
+while jugando:
+    VENTANA.fill(NEGRO)  # Limpiar la pantalla
+    
+    # Manejo de eventos
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            jugando = False
+    
+    # Obtener teclas presionadas
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_w]:  # Mover arriba
+        y -= velocidad
+    if teclas[pygame.K_s]:  # Mover abajo
+        y += velocidad
+    if teclas[pygame.K_a]:  # Mover izquierda
+        x -= velocidad
+    if teclas[pygame.K_d]:  # Mover derecha
+        x += velocidad
+    
+    # Dibujar la meta
+    pygame.draw.rect(VENTANA, ROJO, (meta_x, meta_y, meta_ancho, meta_alto))
+    
+    # Dibujar el auto
+    VENTANA.blit(auto_img, (x, y))
+    
+    # Verificar si el auto llega a la meta
+    if meta_x < x < meta_x + meta_ancho and meta_y < y < meta_y + meta_alto:
+        tiempo_final = time.time()
+        tiempo_total = round(tiempo_final - tiempo_inicio, 2)
+        puntaje += 100
+        print(f"¡Has llegado a la meta! Tiempo: {tiempo_total} segundos | Puntaje: {puntaje}")
+        jugando = False  # Terminar el juego
+    
+    # Mostrar tiempo y puntaje
+    fuente = pygame.font.Font(None, 36)
+    texto_tiempo = fuente.render(f"Tiempo: {round(time.time() - tiempo_inicio, 2)} s", True, BLANCO)
+    texto_puntaje = fuente.render(f"Puntaje: {puntaje}", True, BLANCO)
+    VENTANA.blit(texto_tiempo, (10, 10))
+    VENTANA.blit(texto_puntaje, (10, 50))
+    
+    pygame.display.flip()  # Actualizar la pantalla
+    clock.tick(60)  # Controlar los FPS
+
+pygame.quit()

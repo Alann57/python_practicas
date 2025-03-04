@@ -1,0 +1,3 @@
+productos={"manzanas":5600,"mandarina":12000,"kiwi":25000}
+print("precio de las manzanas en Gs :" , productos["manzanas"])
+print("precios",productos)

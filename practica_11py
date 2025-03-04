@@ -1,0 +1,14 @@
+#numeros primos 
+num=100000
+while True:
+    bandera=False
+    for x in range(2,int(num/2)):
+        if(num%x==0):
+            bandera=True
+            break#rompe el primer ciclo
+    if(bandera==False):
+        print(f"{num}")
+ 
+    num=num+1
+
+

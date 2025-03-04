@@ -1,0 +1,37 @@
+# funciones
+def sumar(x, y):
+    return x + y
+
+def restar(x, y):
+    return x - y
+
+def multiplicar(x, y):
+    return x * y  # Corrección: Se cambió "+" por "*"
+
+def dividir(x, y):
+    if y != 0:
+        return x / y
+    else:
+        return "No se puede dividir por cero"  # Corrección: Se devuelve un mensaje en lugar de solo imprimirlo
+
+while True:
+  
+        v1 = float(input("Ingrese el primer número: "))
+        v2 = float(input("Ingrese el segundo número: "))
+
+        suma = sumar(v1, v2)
+        print(f"La suma es {suma}")
+
+        resta = restar(v1, v2)
+        print(f"La resta es {resta}")
+
+        multiplicacion = multiplicar(v1, v2)
+        print(f"La multiplicación es {multiplicacion}")
+
+        division = dividir(v1, v2)
+        print(f"La división es {division}")
+
+    
+
+   
+

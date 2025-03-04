@@ -1,0 +1,39 @@
+class Calculadora:
+    #atributos
+    historial=None
+    #constructor
+    def __init__(self):
+        self.historial= []
+        self.numero1=0
+        self.numero2=0
+
+
+    def setnumero(self,x:float,y=float):
+        self.numero1 = x
+        self.numero2 = y
+    def sumar(self):
+        self.historial.append(f"{self.numero1}+{self.numero2}={self.numero1}+{self.numero2}")
+        return self .numero1+self.numero2
+    def restar(self):
+        self.historial.append(f"{self.numero1}-{self.numero2}={self.numero1}-{self.numero2}")
+        return self.numero1-self.numero2
+    def multiplicar(self):
+        self.historial.append(f"{self.numero1}*{self.numero2}={self.numero1}*{self.numero2}")
+        return self.numero1*self.numero2
+        
+    def dividir(self):
+        self.historial.append(f"{self.numero1}/{self.numero2}={self.numero1}/{self.numero2}")
+        return self.numero1/self.numero2
+        
+      
+    def VerHistorial(self):
+        return self.historial
+
+if __name__=="__main__":
+ casio = Calculadora()
+ casio.setnumero(5,7)
+ print("la suma es" , casio.sumar())
+ print("la resta es", casio.restar())
+ print("la multiplicacion es" , casio.multiplicar())
+ print("la division es" , casio.dividir())
+ print(casio.VerHistorial())

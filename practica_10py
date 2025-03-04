@@ -1,0 +1,24 @@
+#alan, claifica de materias
+suma = 0
+contador = 0
+
+while True:
+    calificacion = float(input("Ingrese una calificación (0 para terminar): "))
+    
+    if calificacion == 0:
+        break
+    
+    suma += calificacion
+    contador += 1
+
+if contador > 0:
+    promedio = suma / contador
+    print(f"El promedio general es: {promedio:.2f}")
+else:
+    print("No se ingresaron calificaciones.")
+
+
+
+#cuadrado
+for x in range (4):
+    print("*"*4)

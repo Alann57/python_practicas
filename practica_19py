@@ -1,0 +1,62 @@
+from tkinter import *
+from tkinter.ttk import *
+import pygame
+
+class Reproductor:
+    def __init__(self, archivo):
+        self.archivo = archivo
+        pygame.mixer.init()
+        pygame.mixer.music.load(archivo)
+        self.paused = False  # Variable para controlar el estado de pausa
+
+    def play(self):
+        pygame.mixer.music.play()
+
+    def stop(self):
+        pygame.mixer.music.stop()
+
+    def volumen(self, nivel):
+        pygame.mixer.music.set_volume(nivel)  # Nivel entre 0.0 y 1.0
+
+    def pause(self):
+        if self.paused:
+            pygame.mixer.music.unpause()  # Reanudar música
+            btn_pause.config(text="⏸")  # Cambiar texto del botón a "Pausar"
+        else:
+            pygame.mixer.music.pause()  # Pausar música
+            btn_pause.config(text="▶")  # Cambiar texto del botón a "Reanudar"
+        self.paused = not self.paused  # Alternar estado
+
+# Crear instancia del reproductor
+musica = Reproductor('musica.mp3')
+
+def play_musica():
+    musica.play()
+
+def stop_musica():
+    musica.stop()
+
+def volumen_musica():
+    musica.volumen(0.8)
+
+# Configurar la ventana de Tkinter
+master = Tk()
+master.geometry("200x250")
+master.title("Reproductor de música")
+
+label = Label(master, text="Reproductor de música")
+label.pack(pady=10)
+
+btn_play = Button(master, text="▶", command=play_musica)
+btn_play.pack(pady=5)
+
+btn_pause = Button(master, text="⏸", command=musica.pause)
+btn_pause.pack(pady=5)
+
+btn_stop = Button(master, text="⏹", command=stop_musica)
+btn_stop.pack(pady=5)
+
+btn_volumen = Button(master, text="🔊", command=volumen_musica)
+btn_volumen.pack(pady=5)
+
+master.mainloop()

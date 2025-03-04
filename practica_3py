@@ -1,0 +1,11 @@
+#cometario1
+###
+"comentario2"
+""
+'''
+comentario3
+'''
+print("bienvenido al curso ")
+nombre= input("como te llamas")
+print=("hola",nombre)
+print=("letras:", len(nombre))

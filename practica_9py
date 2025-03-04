@@ -1,0 +1,10 @@
+#alan, contraseña y usuarios
+user=input("ingrese nombre de usuario :")
+password=input("ingrese la clave :")
+if user=="admin"and password=="12345":
+     print("bienvenido al sistema")
+else:
+        print("acceso denegado ")
+
+
+
