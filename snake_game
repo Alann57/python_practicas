@@ -1,0 +1,95 @@
+import pygame
+import random
+
+# Inicializar pygame
+pygame.init()
+
+# Configuración de la pantalla
+WIDTH, HEIGHT = 600, 400
+CELL_SIZE = 20
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Snake Game")
+
+# Colores
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
+
+# Velocidad del juego
+clock = pygame.time.Clock()
+SPEED = 5
+
+# Función para generar una nueva posición de comida
+def new_food_position():
+    return [random.randrange(0, WIDTH, CELL_SIZE), random.randrange(0, HEIGHT, CELL_SIZE)]
+
+# Estado inicial del juego
+snake = [[WIDTH // 2, HEIGHT // 2]]
+direction = "RIGHT"
+food = new_food_position()
+score = 0
+
+running = True
+while running:
+    screen.fill(BLACK)
+    
+    # Manejo de eventos
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP and direction != "DOWN":
+                direction = "UP"
+            elif event.key == pygame.K_DOWN and direction != "UP":
+                direction = "DOWN"
+            elif event.key == pygame.K_LEFT and direction != "RIGHT":
+                direction = "LEFT"
+            elif event.key == pygame.K_RIGHT and direction != "LEFT":
+                direction = "RIGHT"
+    
+    # Mover la serpiente
+    head = snake[0][:]
+    if direction == "UP":
+        head[1] -= CELL_SIZE
+    elif direction == "DOWN":
+        head[1] += CELL_SIZE
+    elif direction == "LEFT":
+        head[0] -= CELL_SIZE
+    elif direction == "RIGHT":
+        head[0] += CELL_SIZE
+    
+    # Verificar colisiones con los bordes
+    if head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT:
+        running = False
+    
+    # Verificar colisión con sí misma
+    if head in snake:
+        running = False
+    
+    # Agregar la nueva cabeza a la serpiente
+    snake.insert(0, head)
+    
+    # Verificar si come la comida
+    if head == food:
+        score += 1
+        food = new_food_position()
+    else:
+        snake.pop()
+    
+    # Dibujar la serpiente
+    for segment in snake:
+        pygame.draw.rect(screen, GREEN, pygame.Rect(segment[0], segment[1], CELL_SIZE, CELL_SIZE))
+    
+    # Dibujar la comida
+    pygame.draw.rect(screen, RED, pygame.Rect(food[0], food[1], CELL_SIZE, CELL_SIZE))
+    
+    # Mostrar puntaje
+    font = pygame.font.Font(None, 30)
+    text = font.render(f"Score: {score}", True, WHITE)
+    screen.blit(text, (10, 10))
+    
+    pygame.display.flip()
+    clock.tick(SPEED)
+
+pygame.quit()
